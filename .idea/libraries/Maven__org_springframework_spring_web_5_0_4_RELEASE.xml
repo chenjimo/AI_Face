@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: org.springframework:spring-web:5.0.4.RELEASE">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../../../tomcat/respository/org/springframework/spring-web/5.0.4.RELEASE/spring-web-5.0.4.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../../../../tomcat/respository/org/springframework/spring-web/5.0.4.RELEASE/spring-web-5.0.4.RELEASE-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../../../../tomcat/respository/org/springframework/spring-web/5.0.4.RELEASE/spring-web-5.0.4.RELEASE-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../tomcat/respository/org/springframework/spring-web/5.0.5.RELEASE/spring-web-5.0.5.RELEASE.jar!/" />
+    </SOURCES>
+  </library>
+</component>

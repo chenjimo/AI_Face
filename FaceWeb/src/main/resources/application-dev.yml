@@ -1,0 +1,9 @@
+face:
+  config:
+    api-key: XXXXXXXXXXXXXXXXXXXXXXXXX
+    api-secret: XXXXXXXXXXXXXXXXXXXXXXXXX
+    outer-id: XXXXXXXXXXXXXXXXXXXXXXXXX_face
+server:
+  port: XXXX
+
+
