@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>人脸录入页面</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/css/add.css"/>
+</head>
+<style>
+    .light {
+        font-size: 20px;
+        color: #fefefe;
+        text-shadow: 0 0 0.5em #0ae642, 0 0 0.2em #5c5c5c;
+    }
+</style>
+
+<body>
+<div id="app" class="light" style="text-align:center;">
+    <div class="header">
+        <span>人脸更新操作</span>
+    </div>
+
+    <div class="content" >
+        <table >
+            <tr>
+                <td class="text-right">邮箱</td>
+                <td class="content_right"><input class="input inline-input" id="userEmail" placeholder="请输入Email"> <span
+                        class="btn btn-info" id="findByPhone">立即查找</span></td>
+            </tr>
+        </table>
+    </div>
+    <div class="header">
+        <span>查找信息如下，请仔细核验！！！</span>
+    </div>
+    <div class="content" >
+        <table>
+            <tr>
+                <td class="text-right">该用户信息</td>
+                <td class="content_right"><label>
+                    用户ID：<input disabled="disabled" class="input" id="id"><br>
+                    用户姓名：<input readOnly="readOnly" class="input" id="name"><br>
+                    用户手机号：<input readOnly="readOnly" class="input" id="phone">
+                    <div id="imgURL" />
+                </label></td>
+            </tr>
+            <tr>
+                <td class="text-right">人脸图片</td>
+                <td class="content_right"><label>
+                    <input class="input" id="img" type="file">
+                </label></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="content_right">
+                    <span class="btn btn-info" id="user_update">立即录入</span>
+                    <span class="btn">重置</span></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+<script src="../../static/js/jquery2.1.4.js"></script>
+<script src="../../static/layer/layer.js"></script>
+<script>
+    $(".header:eq(1),.content:eq(1)").hide();
+    let userId = null;
+    $(function () {
+        $("#findByPhone").click(function () {
+            const uEmail = $.trim($("#userEmail").val());
+            if (uEmail === "" || uEmail.length === 0) {
+                layer.msg("查询信息不能为空！");
+                return;
+            }
+            const windowId = layer.load();
+            $.getJSON("/admin/user", {email: uEmail}, function (data) {
+                layer.close(windowId);
+                //data:{"status":0,"result":"查询成功","data":{"id":2,"number":"124","username":"张三","userPhone":"13843838438","company":"京东快递","code":"213456","inTime":"Jul 21, 2020, 4:26:21 PM","status":0,"sysPhone":"18888888888"}}
+                layer.msg(data.result);
+                if (data.status === 200) {
+                    $(".header:eq(1),.content:eq(1)").fadeIn(1000);
+                    var u = data.data;
+                    $("#name").val(u.username);
+                    $("#id").val(u.id);
+                    $("#phone").val(u.phone);
+                    $("#imgURL").html("人脸信息：<img src=\""+u.avatar+"\" height=\"100%\" width=\"60\">");
+                }
+            })
+        });
+        let emailZZ = /^[A-Za-z0-9-_\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+        $("#user_update").click(function () {
+
+            var id = $("#id").val();
+            let img = $("#img").val();
+            /*************在这附件有一个input标签获取file失败的问题为解决以及(multipart/form-data)请求问题！！！！***********************************************************/
+            /*jQuery请求的方法可以参考jQuery手册。
+            这个BUG我搞了连三个小时解决不了，但问题不大，
+            可以通过APIFox代替请求，后端代码是没问题的，
+            求实前端的这个请求脚本写的有问题，
+            应该是请求方式以及请求头信息的问题！！！*/
+            const windowId = layer.load();
+            $.post("/admin/uploadImage", {
+                id: id, img : img
+            }, function (data) {
+                layer.close(windowId);
+                layer.msg(data.result);
+                if (data.status === 200) {
+                    //修改成功
+                    var u = data.data;
+                    $("#name").val(u.username);
+                    $("#id").val(u.id);
+                    $("#phone").val(u.phone);
+                    $("#imgURL").html("人脸信息：<img src=\""+data.imageURL+u.avatar+"\" height=\"100%\" width=\"60\">");
+                } else {
+                    layer.msg("请重试或联系管理员！！！");
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</html>
