@@ -1,0 +1,26 @@
+face:
+  config:  #face++ API 配置密钥信息
+    api-key: XXXXXXXXXXX
+    api-secret: XXXXXXXXXXX
+    outer-id: XXXXXXXXXXX
+  image-URL: //127.0.0.1:9291 #静态资源访问前缀（imgURL）
+server:
+  port: 9291
+spring:
+  mvc:
+    static-path-pattern: /static/**  #静态资源配置地址
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: XXXXXXXXXXX
+    password: XXXXXXXXXXX
+    url: jdbc:mysql://XXXXXXXXXXX:3306/XXXXXXXXXXX?serverTimezone=UTC&useUncide=true&characterEncoding=utf-8&useSSL=true
+  thymeleaf:
+    cache: false #关闭thymeleaf缓存
+##整合mybatis
+#mybatis:
+#  type-aliases-package: jimo.face.bean #别名搜索
+#  mapper-locations: classpath:/mybatis/*.xml
+#日志配置文件等级
+logging:
+  level:
+    jimo.bill: debug
